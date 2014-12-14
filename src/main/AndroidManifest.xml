@@ -1,3 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fivehundredpx.api">
+
+    <application>
+        <activity android:name=".auth.FiveHundredPxOAuthActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/FiveHundredPxTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="fivehundredpx"
+                    android:host="${fiveHundredPxOAuthCallback}" android:path="/" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

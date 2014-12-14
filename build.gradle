@@ -1,16 +1,21 @@
+import static java.util.UUID.randomUUID
+
+apply plugin: 'com.android.library'
+
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
-apply plugin: 'com.android.library'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
+
+def oauthCallbackUrl = randomUUID().toString().toLowerCase().replace('-', '')
 
 android {
     compileSdkVersion 21
@@ -19,7 +24,12 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 21
+        manifestPlaceholders = [ fiveHundredPxOAuthCallback:oauthCallbackUrl ]
     }
+}
+
+android.buildTypes.each { type ->
+    type.buildConfigField 'String', 'FIVE_HUNDRED_PX_OAUTH_CALLBACK_URL', '"' + oauthCallbackUrl + '"'
 }
 
 dependencies {
