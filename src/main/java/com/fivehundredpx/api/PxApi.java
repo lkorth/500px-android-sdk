@@ -1,15 +1,8 @@
 package com.fivehundredpx.api;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import android.util.Log;
 
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.exception.OAuthCommunicationException;
-import oauth.signpost.exception.OAuthExpectationFailedException;
-import oauth.signpost.exception.OAuthMessageSignerException;
+import com.fivehundredpx.api.auth.AccessToken;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,9 +15,16 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
-import com.fivehundredpx.api.auth.AccessToken;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
 
 public class PxApi {
 	private static final String TAG = "ApiHelper";
@@ -35,16 +35,13 @@ public class PxApi {
 	private String consumerKey;
 	private String consumerSecret;
 
-	public PxApi(AccessToken accessToken, String consumerKey,
-			String consumerSecret) {
-		super();
+	public PxApi(AccessToken accessToken, String consumerKey, String consumerSecret) {
 		this.accessToken = accessToken;
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
 	}
 
 	public PxApi(String consumerKey) {
-		super();
 		this.consumerKey = consumerKey;
 	}
 
@@ -83,7 +80,7 @@ public class PxApi {
 		try {
 			signRequest(request);
 		} catch (Exception e) {
-			Log.e(TAG, "Erro trying to sign the request.", e);
+			Log.e(TAG, "Error trying to sign the request.", e);
 		}
 		return handle(request);
 	}

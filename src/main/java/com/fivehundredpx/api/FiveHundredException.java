@@ -6,10 +6,6 @@ public class FiveHundredException extends Exception {
 
 	private int statusCode = 0 ; 
 	
-	public int getStatusCode() {
-		return statusCode;
-	}
-
 	public FiveHundredException() {
 		super();
 	}
@@ -30,5 +26,9 @@ public class FiveHundredException extends Exception {
 		super();
 		this.statusCode = status;
 	}
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 
 }

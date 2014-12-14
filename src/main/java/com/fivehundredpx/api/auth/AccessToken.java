@@ -1,79 +1,69 @@
 package com.fivehundredpx.api.auth;
 
-import java.io.IOException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.util.EntityUtils;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.fivehundredpx.api.FiveHundredException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+
 public class AccessToken implements Parcelable {
 
-	private String token;
-	private String tokenSecret;
+	private String mToken;
+	private String mTokenSecret;
 
 	public AccessToken(String token, String tokenSecret) {
-		this.token = token;
-		this.tokenSecret = tokenSecret;
+		mToken = token;
+		mTokenSecret = tokenSecret;
 	}
 	
-	public AccessToken(Parcel in) {
-		readFromParcel(in);
-	}
-
 	AccessToken(HttpResponse response) throws FiveHundredException {
 		try {
 			final String responseString = EntityUtils.toString(response
 					.getEntity());
 
-			this.tokenSecret = HttpParameterUtil.getUrlParamValue(
-					responseString, "oauth_token_secret");
-			this.token = HttpParameterUtil.getUrlParamValue(responseString,
-					"oauth_token");
-
-		} catch (ParseException e) {
-			throw new FiveHundredException(e);
-		} catch (IOException e) {
+            mToken = HttpParameterUtil.getUrlParamValue(responseString, OAuthConstants.TOKEN);
+			mTokenSecret = HttpParameterUtil.getUrlParamValue(responseString, "oauth_token_secret");
+		} catch (ParseException | IOException e) {
 			throw new FiveHundredException(e);
 		}
-
-	}
+    }
 
 	public String getToken() {
-		return token;
+		return mToken;
 	}
 
 	public String getTokenSecret() {
-		return tokenSecret;
+		return mTokenSecret;
 	}
 
-	public static final Parcelable.Creator<AccessToken> CREATOR = new Parcelable.Creator<AccessToken>() {
-		public AccessToken createFromParcel(Parcel in) {
-			return new AccessToken(in);
-		}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-		public AccessToken[] newArray(int size) {
-			return new AccessToken[size];
-		}
-	};
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mToken);
+        dest.writeString(mTokenSecret);
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    private AccessToken(Parcel in) {
+        mToken = in.readString();
+        mTokenSecret = in.readString();
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(token);
-		dest.writeString(tokenSecret);
-	}
- 
-	private void readFromParcel(Parcel in) {
-		token = in.readString();
-		tokenSecret = in.readString();
-	}
+    public static final Creator<AccessToken> CREATOR = new Creator<AccessToken>() {
+        public AccessToken createFromParcel(Parcel source) {
+            return new AccessToken(source);
+        }
+
+        public AccessToken[] newArray(int size) {
+            return new AccessToken[size];
+        }
+    };
 }
