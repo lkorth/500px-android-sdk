@@ -1,6 +1,7 @@
 package com.fivehundredpx.api.auth;
 
 final public class OAuthConstants {
+
 	/**
 	 * <p>
 	 * TIMESTAMP.
