@@ -28,7 +28,9 @@ public class AccessToken implements Parcelable {
 
             mToken = HttpParameterUtil.getUrlParamValue(responseString, OAuthConstants.TOKEN);
 			mTokenSecret = HttpParameterUtil.getUrlParamValue(responseString, "oauth_token_secret");
-		} catch (ParseException | IOException e) {
+		} catch (ParseException e) {
+            throw new FiveHundredException(e);
+        } catch (IOException e){
 			throw new FiveHundredException(e);
 		}
     }

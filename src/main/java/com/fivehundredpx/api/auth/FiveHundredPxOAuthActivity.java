@@ -84,10 +84,13 @@ public class FiveHundredPxOAuthActivity extends Activity {
         protected Void doInBackground(Void... params) {
             try {
                 mUrl = mOAuthHelper.getAuthorizationUrl();
-            } catch (OAuthNotAuthorizedException |
-                    OAuthExpectationFailedException |
-                    OAuthCommunicationException |
-                    OAuthMessageSignerException e) {
+            } catch (OAuthNotAuthorizedException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthExpectationFailedException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthCommunicationException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthMessageSignerException e) {
                 mException = new FiveHundredException(e.getMessage(), e);
             }
             return null;
@@ -115,10 +118,13 @@ public class FiveHundredPxOAuthActivity extends Activity {
         protected Void doInBackground(Void... params) {
             try {
                 mAccessToken = mOAuthHelper.getAccessToken();
-            } catch (OAuthCommunicationException |
-                    OAuthExpectationFailedException |
-                    OAuthNotAuthorizedException |
-                    OAuthMessageSignerException e) {
+            } catch (OAuthCommunicationException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthExpectationFailedException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthNotAuthorizedException e) {
+                mException = new FiveHundredException(e.getMessage(), e);
+            } catch (OAuthMessageSignerException e) {
                 mException = new FiveHundredException(e.getMessage(), e);
             }
             return null;
